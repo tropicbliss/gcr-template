@@ -20,3 +20,6 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Setup Pulumi
         uses: pulumi/actions@v6
+      - name: Deploy to GCP
+        run: |
+          pulumi login gs://my-pulumi-state-bucket
