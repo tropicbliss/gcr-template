@@ -25,3 +25,5 @@ jobs:
       - name: Deploy to GCP
         run: |
           pulumi login gs://my-pulumi-state-bucket
+      - name: Verify Docker
+        run: docker --version
