@@ -20,10 +20,11 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Configure Docker for GCP
         run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev --quiet
-      - name: Setup Pulumi
-        uses: pulumi/actions@v6
       - name: Deploy to GCP
-        run: |
-          pulumi login gs://my-pulumi-state-bucket
-      - name: Verify Docker
-        run: docker --version
+        uses: pulumi/actions@v6
+        env:
+          PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
+        with:
+          command: up
+          cloud-url: gs://my-pulumi-state-bucket
+          stack-name: dev
