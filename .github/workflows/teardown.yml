@@ -19,7 +19,7 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Configure Docker for GCP
         run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev --quiet
-      - name: Deploy to GCP
+      - name: Teardown infrastructure
         uses: pulumi/actions@v6
         env:
           PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
