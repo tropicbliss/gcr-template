@@ -8,6 +8,11 @@
 - Typescript (obviously)
 - Hono
 
+## Setting the project up
+
+1. Create project.
+2. Create a service account called `pulumi-deployer` with an owner role.
+
 ## Setting things up
 
 Note: The end goal is to allow any user to push to the repository without
