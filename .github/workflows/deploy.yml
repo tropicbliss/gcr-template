@@ -18,3 +18,5 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+      - name: Setup Pulumi
+        uses: pulumi/actions@v6
