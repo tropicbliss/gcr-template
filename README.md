@@ -5,7 +5,7 @@
 - Google Cloud Run
 - Docker
 - Pulumi
-- Typescript (obviously)
+- Typescript
 - Hono
 
 ## Setting the project up
