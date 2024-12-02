@@ -1,0 +1,4 @@
+config:
+  gcp:project: gcr-test-temp
+  gcp:region: asia-southeast1
+encryptionsalt: v1:xf+D1yjP4tk=:v1:gZqhgPjUq60P4eo6:Lq0F1xF7hWdE7RNXFYVLe0kXurzjrw== # this can be safely committed, not to worry
