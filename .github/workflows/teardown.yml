@@ -1,6 +1,12 @@
 name: Teardown
 on:
   workflow_dispatch:
+    inputs:
+      test:
+        description: "Hello there"
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   teardown:
