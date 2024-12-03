@@ -30,7 +30,7 @@ gcloud iam service-accounts keys create key.json \
 Copy and paste the output from `key.json` as the value for `GOOGLE_CREDENTIALS`.
 
 5. Modify `Pulumi.dev.yaml` with your project ID (by modifying `gcp:project`) and region (by modifying `gcp:region`).
-6. Commit and see it deploy. The GitHub Actions runner will run every time code is pushed to `main`.
+6. Commit and see it deploy. The GitHub Actions runner will run every time code is pushed or merged to `main`.
 
 ## Tearing down
 
