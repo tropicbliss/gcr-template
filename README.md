@@ -34,7 +34,7 @@ Copy and paste the output from `key.json` as the value for `GOOGLE_CREDENTIALS`.
 
 ## Tearing down
 
-1. Run `pulumi destroy`. Alternatively, manually trigger the "Teardown" GitHub action.
+1. Run `pulumi destroy`. Alternatively, manually trigger the "Teardown" GitHub Action.
 2. If you want to remove your stack (no longer deploying in the future), run
    `pulumi stack rm`.
 
