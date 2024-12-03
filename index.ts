@@ -20,7 +20,7 @@ const enableCloudRun = new gcp.projects.Service("EnableCloudRun", {
 const location = gcp.config.region || "us-central1";
 
 const repo = new gcp.artifactregistry.Repository("BackendGcrRepo", {
-    location: location,
+    location,
     format: "DOCKER",
     repositoryId: "backend",
     description: "Docker repository with cleanup policy",
