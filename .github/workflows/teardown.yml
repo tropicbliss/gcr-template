@@ -2,7 +2,7 @@ name: Teardown
 on:
   workflow_dispatch:
     inputs:
-      destroy:
+      remove-stack:
         description: "Delete project (remove stack) (optional) (WARNING: this action is irreversible, you have been warned)"
         required: true
         type: boolean
@@ -16,7 +16,7 @@ jobs:
     secrets: inherit
   remove-stack:
     needs: teardown
-    if: github.event.inputs.destroy
+    if: github.event.inputs.remove-stack
     uses: ./.github/workflows/pulumi.yml
     with:
       pulumi-subcommand: stack rm dev
