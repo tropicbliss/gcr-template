@@ -10,26 +10,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-      - name: Install dependencies
-        run: npm install
-      - name: Google Auth
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-      - name: Configure Docker for GCP
-        run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev --quiet
-      - name: Deploy to GCP
-        uses: pulumi/actions@v6
-        env:
-          PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
-        with:
-          command: up
-          cloud-url: gs://my-pulumi-state-bucket
-          stack-name: dev
+    uses: ./.github/workflows/pulumi.yml
+    with:
+      pulumi-subcommand: up
+    secrets: inherit

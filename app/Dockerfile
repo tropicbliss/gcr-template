@@ -21,7 +21,7 @@ RUN npm run build
 RUN npm prune --production
 
 # Remove source code and TypeScript files as they're no longer needed
-RUN rm -rf src/ tsconfig.json
+RUN rm -rf src/ tsconfig.json Dockerfile
 
 # Start the compiled application
 CMD [ "node", "dist/index.js" ]

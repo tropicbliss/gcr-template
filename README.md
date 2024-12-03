@@ -11,7 +11,7 @@
 ## Setting the project up
 
 1. Create project.
-2. Run `gsutil mb gs://my-pulumi-state-bucket` to create a bucket to store Pulumi state (if you want to change the name of the bucket, you'll need to update both GitHub Actions).
+2. Run `gsutil mb gs://my-pulumi-state-bucket` to create a bucket to store Pulumi state (if you want to change the name of the bucket, you'll need to update the GitHub Actions file `pulumi.yml`).
 3. You'll need 2 GitHub repository secrets: `GOOGLE_CREDENTIALS` and `PULUMI_CONFIG_PASSPHRASE`. The latter can be set to anything you want. 
 4. For the former, run the following commands to create an IAM user with the owner role:
 ```bash
