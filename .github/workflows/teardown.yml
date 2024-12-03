@@ -16,9 +16,8 @@ jobs:
     secrets: inherit
   remove-stack:
     needs: teardown
-    if: github.event.inputs.remove-stack
+    if: github.event.inputs.remove-stack == 'true'
     uses: ./.github/workflows/pulumi.yml
     with:
       pulumi-subcommand: stack rm dev
     secrets: inherit
-    
