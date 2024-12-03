@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       destroy:
-        description: "Remove stack (optional) (WARNING: this action is irreversible, you have been warned)"
+        description: "Delete project (remove stack) (optional) (WARNING: this action is irreversible, you have been warned)"
         required: true
         type: boolean
         default: false
