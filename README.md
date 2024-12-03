@@ -28,12 +28,13 @@ gcloud iam service-accounts keys create key.json \
     --iam-account=my-service-account@PROJECT_ID.iam.gserviceaccount.com
 ```
 Copy and paste the output from `key.json` as the value for `GOOGLE_CREDENTIALS`.
+
 5. Modify `Pulumi.dev.yaml` with your project ID (by modifying `gcp:project`) and region (by modifying `gcp:region`).
-6. Commit and see it deploy. The GitHub Actions runner will run every time code is pushed to `main`.
+6. Commit and see it deploy. The GitHub Actions runner will run every time code is pushed or merged to `main`.
 
 ## Tearing down
 
-1. Run `pulumi destroy`. Alternatively, manually trigger the "Teardown" GitHub action.
+1. Run `pulumi destroy`. Alternatively, manually trigger the "Teardown" GitHub Action.
 2. If you want to remove your stack (no longer deploying in the future), run
    `pulumi stack rm`.
 
