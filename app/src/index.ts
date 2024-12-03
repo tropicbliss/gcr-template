@@ -5,7 +5,7 @@ const app = new Hono();
 const port = parseInt(process.env.PORT || "8000");
 
 app.get("/", (c) => {
-    console.log({
+    console.log(JSON.stringify({
         message: "Example log",
         context: {
             cwqcw: 3,
@@ -13,7 +13,7 @@ app.get("/", (c) => {
                 bgregbregesgrw: 5
             }
         }
-    })
+    }))
     return c.text("Hello from Google!")
 });
 
