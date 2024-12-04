@@ -27,6 +27,7 @@ jobs:
       - name: Cache Docker layers
         if: inputs.pulumi-subcommand == 'up'
         uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
       - name: Deploy to GCP
         uses: pulumi/actions@v6
         env:
