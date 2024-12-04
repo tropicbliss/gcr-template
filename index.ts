@@ -39,7 +39,7 @@ const imageName = "js-app";
 
 const myImage = new docker.Image(imageName, {
     imageName: pulumi
-        .interpolate`${repo.location}-docker.pkg.dev/${gcp.config.project}/${repo.repositoryId}/${imageName}:${Date.now()}`,
+        .interpolate`${repo.location}-docker.pkg.dev/${gcp.config.project}/${repo.repositoryId}/${imageName}:latest`,
     build: {
         context: "./app",
         platform: "linux/amd64",
@@ -51,7 +51,7 @@ const jsService = new gcp.cloudrunv2.Service("js", {
     template: {
         containers: [
             {
-                image: myImage.imageName,
+                image: myImage.repoDigest,
                 ports: {
                     containerPort: 8080,
                 },
