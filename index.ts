@@ -6,11 +6,13 @@ const enableResourceManager = new gcp.projects.Service(
     "EnableResourceManager",
     {
         service: "cloudresourcemanager.googleapis.com",
+        disableOnDestroy: false
     },
 );
 
 const enableCompute = new gcp.projects.Service("EnableCompute", {
     service: "compute.googleapis.com",
+    disableOnDestroy: false
 }, { dependsOn: enableResourceManager });
 
 const enableCloudRun = new gcp.projects.Service("EnableCloudRun", {
