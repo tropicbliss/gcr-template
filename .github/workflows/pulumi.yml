@@ -24,6 +24,11 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Configure Docker for GCP
         run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev --quiet
+      - name: Fix cache permissions
+        if: inputs.pulumi-subcommand == 'up'
+        run: |
+          sudo chown -R $USER:$USER /var/lib/docker
+          sudo chmod -R 777 /var/lib/docker
       - name: Cache Docker layers
         if: inputs.pulumi-subcommand == 'up'
         uses: actions/cache@v3
