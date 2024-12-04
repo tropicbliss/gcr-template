@@ -37,12 +37,21 @@ const repo = new gcp.artifactregistry.Repository("BackendGcrRepo", {
 
 const imageName = "js-app";
 
+const fullImagePath = pulumi
+    .interpolate`${repo.location}-docker.pkg.dev/${gcp.config.project}/${repo.repositoryId}/${imageName}:latest`
+
 const myImage = new docker.Image(imageName, {
-    imageName: pulumi
-        .interpolate`${repo.location}-docker.pkg.dev/${gcp.config.project}/${repo.repositoryId}/${imageName}:latest`,
+    imageName: fullImagePath,
     build: {
         context: "./app",
         platform: "linux/amd64",
+        args: {
+            BUILDKIT_INLINE_CACHE: "1"
+        },
+        cacheFrom: {
+            images: [fullImagePath]
+        },
+        builderVersion: "BuilderBuildKit"
     },
 }, { dependsOn: enableCompute });
 
