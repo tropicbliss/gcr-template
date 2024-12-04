@@ -4,7 +4,7 @@ import { Hono } from "hono";
 const app = new Hono();
 const port = parseInt(process.env.PORT || "8000");
 
-app.get("/", (c) => c.text("Hello from Google!"));
+app.get("/", (c) => c.text("Hello from Test!"));
 
 serve({
     fetch: app.fetch,
