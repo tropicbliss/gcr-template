@@ -4,11 +4,9 @@ import { Hono } from "hono";
 const app = new Hono();
 const port = parseInt(process.env.PORT || "8000");
 
-app.get("/", (c) => c.text("Hello from Google!"));
+app.get("/ping", (c) => c.text("Pong!"));
 
 serve({
     fetch: app.fetch,
     port,
 });
-
-console.log(`Server is running on http://localhost:${port}`);

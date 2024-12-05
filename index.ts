@@ -1,6 +1,7 @@
 import * as gcp from "@pulumi/gcp";
 import * as docker from "@pulumi/docker";
 import * as pulumi from "@pulumi/pulumi";
+import * as docker_build from "@pulumi/docker-build";
 
 const enableResourceManager = new gcp.projects.Service(
     "EnableResourceManager",
@@ -42,27 +43,31 @@ const imageName = "js-app";
 const fullImagePath = pulumi
     .interpolate`${repo.location}-docker.pkg.dev/${gcp.config.project}/${repo.repositoryId}/${imageName}:latest`
 
-const myImage = new docker.Image(imageName, {
-    imageName: fullImagePath,
-    build: {
-        context: "./app",
-        platform: "linux/amd64",
-        args: {
-            BUILDKIT_INLINE_CACHE: "1"
-        },
-        cacheFrom: {
-            images: [fullImagePath]
-        },
-        builderVersion: "BuilderBuildKit"
+const myImage = new docker_build.Image(imageName, {
+    push: true,
+    tags: [fullImagePath],
+    context: {
+        location: "./app"
     },
-}, { dependsOn: enableCompute });
+    platforms: ["linux/amd64"],
+    cacheFrom: [{
+        registry: {
+            ref: fullImagePath
+        }
+    }],
+    cacheTo: [
+        {
+            inline: {}
+        }
+    ]
+}, { dependsOn: enableCompute })
 
 const jsService = new gcp.cloudrunv2.Service("js", {
     location,
     template: {
         containers: [
             {
-                image: myImage.repoDigest,
+                image: myImage.ref,
                 ports: {
                     containerPort: 8080,
                 },
