@@ -98,3 +98,4 @@ new gcp.cloudrunv2.ServiceIamMember("js-everyone", {
 }, { dependsOn: enableCloudRun });
 
 export const apiUrl = jsService.uri;
+export const abc = env
