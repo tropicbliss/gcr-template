@@ -31,7 +31,7 @@ Copy and paste the output from `key.json` as the value for `GOOGLE_CREDENTIALS`.
 
 5. Modify `Pulumi.dev.yaml` with your project ID (by modifying `gcp:project`) and region (by modifying `gcp:region`) (if you have changed the region, you might also have to update the `configure-docker` command in the GitHub Actions workflow `pulumi.yml`).
 6. Look through `index.ts` in the repository root. You might want to modify the minimum and maximum number of instances to spawn, among other configurations.
-7. If you do not require custom domains, feel free to comment out certain code in `index.ts` in the repository root. If you do require custom domains however, remember to update the domain value in `Pulumi.dev.yaml`.
+7. If you do not require custom domains, feel free to comment out certain code in `index.ts` in the repository root. If you do require custom domains however, remember to update `quickstart:domain` in `Pulumi.dev.yaml` with your domain.
 8. Commit and see it deploy. The URL will be shown in the GitHub Actions logs once it is done deploying to Google Cloud. The runner will run every time code is pushed or merged to `main`.
 9. If you are using custom domains, set the A record in your DNS to the IP shown in the GitHub Actions output.
 
