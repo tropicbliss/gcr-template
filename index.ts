@@ -19,7 +19,7 @@ const enableCloudRun = new gcp.projects.Service("EnableCloudRun", {
     service: "run.googleapis.com",
 }, { dependsOn: enableCompute });
 
-const location = "us-central1";
+const location = gcp.config.region || "us-central1";
 
 const repo = new gcp.artifactregistry.Repository("BackendGcrRepo", {
     location,
