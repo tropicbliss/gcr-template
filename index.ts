@@ -1,5 +1,4 @@
 import * as gcp from "@pulumi/gcp";
-import * as docker from "@pulumi/docker";
 import * as pulumi from "@pulumi/pulumi";
 import * as docker_build from "@pulumi/docker-build";
 
