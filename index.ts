@@ -61,6 +61,19 @@ const myImage = new docker_build.Image(imageName, {
     ]
 }, { dependsOn: enableCompute })
 
+const ipAddress = new gcp.compute.GlobalAddress("LbIpAddress", {
+    name: "lb-ip-address"
+}, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
+
+const config = new pulumi.Config();
+
+const certificate = new gcp.compute.ManagedSslCertificate("SslCertificate", {
+    name: "lb-cert",
+    managed: {
+        domains: [config.require("domain")]
+    }
+}, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
+
 const jsService = new gcp.cloudrunv2.Service("js", {
     location,
     template: {
@@ -81,6 +94,97 @@ const jsService = new gcp.cloudrunv2.Service("js", {
     ingress: "INGRESS_TRAFFIC_ALL",
 }, { dependsOn: enableCloudRun });
 
+const neg = new gcp.compute.RegionNetworkEndpointGroup("LbNeg", {
+    name: "lb-neg",
+    region: location,
+    cloudRun: {
+        service: jsService.name
+    }
+}, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
+
+const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
+    name: "lb-security-policy",
+    rules: [
+        {
+            action: "allow",
+            priority: 2147483647,
+            match: {
+                versionedExpr: "SRC_IPS_V1",
+                config: {
+                    srcIpRanges: ["*"],
+                },
+            },
+        },
+        {
+            action: "throttle",
+            priority: 2147483646,
+            description: "Default rate limiting rule",
+            match: {
+                versionedExpr: "SRC_IPS_V1",
+                config: {
+                    srcIpRanges: ["*"],
+                },
+            },
+            rateLimitOptions: {
+                conformAction: "allow",
+                enforceOnKey: "IP",
+                exceedAction: "deny(403)",
+                rateLimitThreshold: {
+                    count: 500,
+                    intervalSec: 60,
+                },
+            },
+        },
+    ],
+}, { dependsOn: enableCloudRun }); // remove this if you do not need custom domain
+
+const backendService = new gcp.compute.BackendService("LbBackend", {
+    backends: [{
+        group: neg.id,
+    }],
+    cdnPolicy: {
+        cacheKeyPolicy: {
+            includeHost: true,
+            includeProtocol: true,
+            includeQueryString: true
+        },
+        cacheMode: "CACHE_ALL_STATIC",
+        clientTtl: 3600,
+        defaultTtl: 3600,
+        maxTtl: 86400,
+        negativeCaching: false,
+        serveWhileStale: 0
+    },
+    compressionMode: "DISABLED",
+    connectionDrainingTimeoutSec: 0,
+    enableCdn: true,
+    loadBalancingScheme: "EXTERNAL_MANAGED",
+    securityPolicy: securityPolicy.id,
+    localityLbPolicy: "ROUND_ROBIN",
+    logConfig: {
+        enable: false,
+    },
+    protocol: "HTTPS",
+}, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
+
+const urlMap = new gcp.compute.URLMap("LbUrlMap", {
+    defaultService: backendService.id,
+}, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
+
+const httpsProxy = new gcp.compute.TargetHttpsProxy("lb-target-proxy", {
+    urlMap: urlMap.id,
+    sslCertificates: [certificate.id]
+}, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
+
+new gcp.compute.GlobalForwardingRule("LbForwardingRule", {
+    name: "lb-forwarding-rule",
+    target: httpsProxy.id,
+    ipAddress: ipAddress.id,
+    ipProtocol: "TCP",
+    loadBalancingScheme: "EXTERNAL_MANAGED",
+    portRange: "443",
+}, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
+
 new gcp.cloudrunv2.ServiceIamMember("js-everyone", {
     name: jsService.name,
     location,
@@ -89,3 +193,4 @@ new gcp.cloudrunv2.ServiceIamMember("js-everyone", {
 }, { dependsOn: enableCloudRun });
 
 export const apiUrl = jsService.uri;
+export const ip = ipAddress.address // remove this if you do not need custom domain
