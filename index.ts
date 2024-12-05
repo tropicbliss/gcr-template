@@ -1,6 +1,9 @@
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import * as docker_build from "@pulumi/docker-build";
+import * as fs from 'fs';
+
+const env = fs.readFileSync(".env.json", "utf-8")
 
 const enableResourceManager = new gcp.projects.Service(
     "EnableResourceManager",
@@ -19,7 +22,7 @@ const enableCloudRun = new gcp.projects.Service("EnableCloudRun", {
     service: "run.googleapis.com",
 }, { dependsOn: enableCompute });
 
-const location = gcp.config.region || "us-central1";
+const location = "us-central1";
 
 const repo = new gcp.artifactregistry.Repository("BackendGcrRepo", {
     location,
@@ -70,6 +73,12 @@ const jsService = new gcp.cloudrunv2.Service("js", {
                 ports: {
                     containerPort: 8080,
                 },
+                envs: [
+                    {
+                        name: "sharedEnv",
+                        value: env
+                    }
+                ]
             },
         ],
         scaling: {
