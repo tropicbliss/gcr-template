@@ -1,9 +1,6 @@
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import * as docker_build from "@pulumi/docker-build";
-import * as fs from 'fs';
-
-const env = fs.readFileSync(".env.json", "utf-8")
 
 const enableResourceManager = new gcp.projects.Service(
     "EnableResourceManager",
@@ -73,12 +70,6 @@ const jsService = new gcp.cloudrunv2.Service("js", {
                 ports: {
                     containerPort: 8080,
                 },
-                envs: [
-                    {
-                        name: "sharedEnv",
-                        value: env
-                    }
-                ]
             },
         ],
         scaling: {
@@ -98,4 +89,3 @@ new gcp.cloudrunv2.ServiceIamMember("js-everyone", {
 }, { dependsOn: enableCloudRun });
 
 export const apiUrl = jsService.uri;
-export const abc = env
