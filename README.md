@@ -29,7 +29,7 @@ gcloud iam service-accounts keys create key.json \
 ```
 Copy and paste the output from `key.json` as the value for `GOOGLE_CREDENTIALS`.
 
-5. Modify `Pulumi.dev.yaml` with your project ID (by modifying `gcp:project`) and region (by modifying `gcp:region`) (depending on the region, you might also have to update the GitHub Actions workflow `pulumi.yml`).
+5. Modify `Pulumi.dev.yaml` with your project ID (by modifying `gcp:project`) and region (by modifying `gcp:region`) (if you have changed the region, you might also have to update the `configure-docker` command in the GitHub Actions workflow `pulumi.yml`).
 6. Look through `index.ts` in the repository root. You might want to modify the minimum and maximum number of instances to spawn, among other configurations.
 7. Commit and see it deploy. The GitHub Actions runner will run every time code is pushed or merged to `main`.
 
