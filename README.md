@@ -46,3 +46,4 @@ Alternatively, you can manually trigger the "Teardown" GitHub Action.
 
 - https://www.pulumi.com/blog/google-cloud-run-serverless-containers/
 - https://www.pulumi.com/docs/iac/get-started/gcp/begin/
+- https://cloud.google.com/load-balancing/docs/https/setup-global-ext-https-serverless
