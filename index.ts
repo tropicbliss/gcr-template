@@ -103,7 +103,7 @@ const neg = new gcp.compute.RegionNetworkEndpointGroup("LbNeg", {
 }, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
 
 const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
-    name: "lb-security-policy",
+    name: "lb-security-policy", // default rule allowing all other traffic not caught by the previous policies
     rules: [
         {
             action: "allow",
@@ -117,7 +117,7 @@ const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
         },
         {
             action: "throttle",
-            priority: 2147483646,
+            priority: 2147483646, // lower priority number means higher priority so this gets executed first
             description: "Default rate limiting rule",
             match: {
                 versionedExpr: "SRC_IPS_V1",
