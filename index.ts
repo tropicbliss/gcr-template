@@ -76,7 +76,6 @@ const certificate = new gcp.compute.ManagedSslCertificate("SslCertificate", {
 
 const enableIam = new gcp.projects.Service("iam-api", {
     service: "iam.googleapis.com",
-    project: "YOUR_PROJECT_ID",
     disableOnDestroy: false,
 }, { dependsOn: enableCloudRun });
 
