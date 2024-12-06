@@ -76,7 +76,7 @@ const certificate = new gcp.compute.ManagedSslCertificate("SslCertificate", {
 
 const serviceAccount = new gcp.serviceaccount.Account("JsServiceAccount")
 
-const secretManagerBinding = new gcp.projects.IAMMember("JsServiceAccount", {
+new gcp.projects.IAMMember("JsServiceAccount", {
     project: gcp.config.project!,
     role: "roles/secretmanager.secretAccessor",
     member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`
