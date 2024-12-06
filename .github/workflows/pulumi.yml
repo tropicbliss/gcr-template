@@ -1,4 +1,7 @@
 name: Pulumi Setup
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: false
 on:
   workflow_call:
     inputs:

@@ -74,23 +74,6 @@ const certificate = new gcp.compute.ManagedSslCertificate("SslCertificate", {
     }
 }, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
 
-const enableIam = new gcp.projects.Service("iam-api", {
-    service: "iam.googleapis.com",
-    disableOnDestroy: false,
-}, { dependsOn: enableCloudRun });
-
-const serviceAccount = new gcp.serviceaccount.Account("JsServiceAccount", {
-    accountId: "js-service-account"
-}, { dependsOn: enableIam })
-
-const secretManagerRoles = ["roles/secretmanager.secretAccessor", "roles/secretmanager.viewer", "roles/firebase.admin"].map((role, idx) => {
-    new gcp.projects.IAMMember(`JsServiceAccount${idx}`, {
-        project: gcp.config.project!,
-        role,
-        member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`
-    })
-})
-
 const jsService = new gcp.cloudrunv2.Service("js", {
     location,
     template: {
@@ -108,7 +91,6 @@ const jsService = new gcp.cloudrunv2.Service("js", {
                 ]
             },
         ],
-        serviceAccount: serviceAccount.email,
         scaling: {
             minInstanceCount: 1,
             maxInstanceCount: 3,
