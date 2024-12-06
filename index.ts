@@ -91,7 +91,7 @@ const jsService = new gcp.cloudrunv2.Service("js", {
         },
     },
     deletionProtection: false,
-    ingress: "INGRESS_TRAFFIC_ALL",
+    ingress: "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER",
 }, { dependsOn: enableCloudRun });
 
 const neg = new gcp.compute.RegionNetworkEndpointGroup("LbNeg", {
