@@ -5,9 +5,11 @@ import admin from "firebase-admin"
 
 admin.initializeApp()
 
+const firestore = admin.firestore()
+
 async function listCollections() {
     try {
-        const collections = await admin.firestore().listCollections();
+        const collections = await firestore.listCollections();
 
         // Get collection IDs
         const collectionIds = collections.map(col => col.id);
