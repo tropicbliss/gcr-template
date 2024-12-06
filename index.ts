@@ -141,7 +141,7 @@ const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
             description: "Block Regions",
             match: {
                 expr: {
-                    expression: "origin.region_code in ['RU', 'SG']"
+                    expression: "origin.region_code.matches('RU|SG')"
                 }
             },
         },
