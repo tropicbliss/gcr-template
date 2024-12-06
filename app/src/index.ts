@@ -2,7 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { SecretManagerServiceClient } from "@google-cloud/secret-manager"
 
-const PROJECT_ID = "971926845517"
+const PROJECT_ID = process.env.projectId || "gcr-test-temp"
 
 async function getAllSecrets() {
     const client = new SecretManagerServiceClient()

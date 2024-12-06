@@ -74,6 +74,14 @@ const certificate = new gcp.compute.ManagedSslCertificate("SslCertificate", {
     }
 }, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
 
+const serviceAccount = new gcp.serviceaccount.Account("JsServiceAccount")
+
+const secretManagerBinding = new gcp.projects.IAMMember("JsServiceAccount", {
+    project: gcp.config.project!,
+    role: "roles/secretmanager.secretAccessor",
+    member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`
+})
+
 const jsService = new gcp.cloudrunv2.Service("js", {
     location,
     template: {
@@ -83,8 +91,15 @@ const jsService = new gcp.cloudrunv2.Service("js", {
                 ports: {
                     containerPort: 8080,
                 },
+                envs: [
+                    {
+                        name: "projectId",
+                        value: gcp.config.project
+                    }
+                ]
             },
         ],
+        serviceAccount: serviceAccount.email,
         scaling: {
             minInstanceCount: 1,
             maxInstanceCount: 3,
