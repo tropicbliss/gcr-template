@@ -74,9 +74,15 @@ const certificate = new gcp.compute.ManagedSslCertificate("SslCertificate", {
     }
 }, { dependsOn: enableCloudRun }) // remove this if you do not need custom domain
 
+const enableIam = new gcp.projects.Service("iam-api", {
+    service: "iam.googleapis.com",
+    project: "YOUR_PROJECT_ID",
+    disableOnDestroy: false,
+}, { dependsOn: enableCloudRun });
+
 const serviceAccount = new gcp.serviceaccount.Account("JsServiceAccount", {
     accountId: "js-service-account"
-})
+}, { dependsOn: enableIam })
 
 new gcp.projects.IAMMember("JsServiceAccount", {
     project: gcp.config.project!,
