@@ -68,7 +68,7 @@ const port = parseInt(process.env.PORT || "8000");
 
 app.get("/", async (c) => {
     const ids = await listCollections()
-    return c.json(ids)
+    return c.json({ ids, ...getEnv() })
 });
 
 serve({
