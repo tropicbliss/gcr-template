@@ -148,7 +148,7 @@ const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
         {
             action: "deny(403)",
             priority: 2147483644,
-            description: "Block IP addresses",
+            description: "Block IP addresses", // block specific IP addresses
             match: {
                 versionedExpr: "SRC_IPS_V1",
                 config: {
