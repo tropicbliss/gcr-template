@@ -135,6 +135,16 @@ const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
                 }, // rate limit 500 requests/minute per IP
             },
         },
+        {
+            action: "throttle",
+            priority: 2147483645, // lower priority number means higher priority so this gets executed first
+            description: "Block Regions",
+            match: {
+                expr: {
+                    expression: "origin.region_code in ['RU', 'SG']"
+                }
+            },
+        },
     ],
 }, { dependsOn: enableCloudRun }); // remove this if you do not need custom domain
 
