@@ -83,7 +83,7 @@ const serviceAccount = new gcp.serviceaccount.Account("JsServiceAccount", {
     accountId: "js-service-account"
 }, { dependsOn: enableIam })
 
-const secretManagerRoles = ["roles/secretmanager.secretAccessor", "roles/firebase.admin"].map((role, idx) => {
+const secretManagerRoles = ["roles/secretmanager.secretAccessor", "roles/secretmanager.viewer", "roles/firebase.admin"].map((role, idx) => {
     new gcp.projects.IAMMember(`JsServiceAccount${idx}`, {
         project: gcp.config.project!,
         role,
