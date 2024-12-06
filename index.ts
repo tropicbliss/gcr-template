@@ -83,8 +83,8 @@ const serviceAccount = new gcp.serviceaccount.Account("JsServiceAccount", {
     accountId: "js-service-account"
 }, { dependsOn: enableIam })
 
-const secretManagerRoles = ["roles/secretmanager.secretAccessor", "roles/secretmanager.viewer"].map((role) => {
-    new gcp.projects.IAMMember("JsServiceAccount", {
+const secretManagerRoles = ["roles/secretmanager.secretAccessor", "roles/secretmanager.viewer"].map((role, idx) => {
+    new gcp.projects.IAMMember(`JsServiceAccount${idx}`, {
         project: gcp.config.project!,
         role,
         member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`
