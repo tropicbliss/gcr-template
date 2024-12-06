@@ -3,6 +3,8 @@ import { Hono } from "hono";
 import { SecretManagerServiceClient } from "@google-cloud/secret-manager"
 import admin from "firebase-admin"
 
+admin.initializeApp()
+
 async function listCollections() {
     try {
         const collections = await admin.firestore().listCollections();
