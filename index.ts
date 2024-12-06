@@ -145,6 +145,17 @@ const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
                 }
             },
         },
+        {
+            action: "deny(403)",
+            priority: 2147483644,
+            description: "Block IP addresses",
+            match: {
+                versionedExpr: "SRC_IPS_V1",
+                config: {
+                    srcIpRanges: ["1.2.3.4"].map((ip) => `${ip}/32`)
+                }
+            }
+        }
     ],
 }, { dependsOn: enableCloudRun }); // remove this if you do not need custom domain
 
