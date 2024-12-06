@@ -136,7 +136,7 @@ const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
             },
         },
         {
-            action: "throttle",
+            action: "deny-403",
             priority: 2147483645,
             description: "Block Regions",
             match: {
