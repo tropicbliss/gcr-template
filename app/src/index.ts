@@ -1,6 +1,22 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { SecretManagerServiceClient } from "@google-cloud/secret-manager"
+import admin from "firebase-admin"
+
+async function listCollections() {
+    try {
+        const collections = await admin.firestore().listCollections();
+
+        // Get collection IDs
+        const collectionIds = collections.map(col => col.id);
+
+        console.log('Collections:', collectionIds);
+        return collectionIds;
+    } catch (error) {
+        console.error('Error listing collections:', error);
+        throw error;
+    }
+}
 
 const PROJECT_ID = process.env.projectId || "gcr-test-temp"
 
@@ -46,7 +62,10 @@ getAllSecrets()
 const app = new Hono();
 const port = parseInt(process.env.PORT || "8000");
 
-app.get("/", async (c) => c.text(getEnv().hello.there));
+app.get("/", async (c) => {
+    const ids = await listCollections()
+    return c.json(ids)
+});
 
 serve({
     fetch: app.fetch,
