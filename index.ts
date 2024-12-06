@@ -137,7 +137,7 @@ const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
         },
         {
             action: "throttle",
-            priority: 2147483645, // lower priority number means higher priority so this gets executed first
+            priority: 2147483645,
             description: "Block Regions",
             match: {
                 expr: {
