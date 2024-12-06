@@ -136,12 +136,12 @@ const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
             },
         },
         {
-            action: "deny-403",
+            action: "deny(403)",
             priority: 2147483645,
             description: "Block Regions",
             match: {
                 expr: {
-                    expression: "origin.region_code.matches('RU|SG')"
+                    expression: "origin.region_code != 'RU' || origin.region_code != 'SG'"
                 }
             },
         },
