@@ -130,7 +130,7 @@ const securityPolicy = new gcp.compute.SecurityPolicy("LbSecurityPolicy", {
                 enforceOnKey: "IP",
                 exceedAction: "deny(403)",
                 rateLimitThreshold: {
-                    count: 3,
+                    count: 500,
                     intervalSec: 60,
                 }, // rate limit 500 requests/minute per IP
             },
