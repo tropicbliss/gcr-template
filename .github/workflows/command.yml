@@ -1,4 +1,7 @@
 name: Run Pulumi Command
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 on:
   workflow_dispatch:
     inputs:
