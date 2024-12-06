@@ -1,0 +1,15 @@
+name: Run Pulumi Command
+on:
+  workflow_dispatch:
+    inputs:
+      subcommand:
+        description: "Run Pulumi subcommand (e.g., if you want to execute `pulumi up`, type `up`)"
+        required: true
+        type: string
+
+jobs:
+  run-command:
+    uses: ./.github/workflows/pulumi.yml
+    with:
+      pulumi-subcommand: ${{ inputs.subcommand }}
+    secrets: inherit
