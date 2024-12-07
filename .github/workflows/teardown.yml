@@ -1,7 +1,4 @@
 name: Teardown
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: false
 on:
   workflow_dispatch:
     inputs:

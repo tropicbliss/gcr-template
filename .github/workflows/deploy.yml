@@ -1,7 +1,4 @@
 name: Deploy to Google Cloud
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: false
 on:
   workflow_dispatch:
   push:
